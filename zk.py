@@ -20,6 +20,8 @@ def fetch_balance(w3: Web3, address: str, block: str = "latest") -> int:
 def analyze_accounts(w3: Web3, addresses: List[str], block: str) -> Dict[str, Dict[str, int]]:
     results = {}
     for addr in addresses:
+                # ✅ New: Print progress for each account being analyzed
+        print(f"🔍 Fetching data for {addr} ...")
         try:
             bal = fetch_balance(w3, addr, block)
             txs = fetch_tx_count(w3, addr, block)
