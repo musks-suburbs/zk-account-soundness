@@ -101,6 +101,14 @@ def main() -> None:
         print("\n🎯 Account states match across both RPCs.")
     else:
         print(f"\n🚨 {len(diffs)} account(s) differ between the two sources.")
+        # ✅ New: Calculate and print total ETH balance difference
+        total_diff_wei = sum(
+            abs(state_a[addr]["balance_wei"] - state_b[addr]["balance_wei"])
+            for addr in diffs
+            if "balance_wei" in state_a.get(addr, {}) and "balance_wei" in state_b.get(addr, {})
+        )
+        total_diff_eth = total_diff_wei / 10**18
+        print(f"💰 Total Balance Difference: {total_diff_eth:.6f} ETH across mismatched accounts.")
 
     if args.json:
         out = {
